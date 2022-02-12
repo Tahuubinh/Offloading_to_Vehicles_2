@@ -1,1 +1,3 @@
-Mec_ver4-main/result/result1/
+Mec_ver4-main/result/result1/*
+Mec_ver4-main/result/result2/*
+!.gitignore

@@ -197,7 +197,6 @@ def Run_DQL(folder_name):
         dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     except Exception as e:
         print(e)
-    # dqn.test(env, nb_steps= 50000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     
 def Run_BDQL(folder_name):
     model=build_model(14,4)
@@ -266,7 +265,6 @@ def Run_DDQL(folder_name):
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
     dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
-    # dqn.test(env, nb_steps= 30000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     
 def Run_Sarsa(i, file):
     model=build_model(14,4)

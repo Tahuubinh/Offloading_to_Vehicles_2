@@ -5,7 +5,7 @@ LINK_PROJECT = Path(os.path.abspath(__file__))
 LINK_PROJECT = LINK_PROJECT.parent.parent
 #print(LINK_PROJECT)
 DATA_DIR = os.path.join(LINK_PROJECT, "data")
-RESULT_DIR = os.path.join(LINK_PROJECT, "result/")
+RESULT_DIR = os.path.join(LINK_PROJECT, "result/result1/")
 DATA_TASK = os.path.join(LINK_PROJECT, "data_task/200 normal task 900 - 1000")
 
 NUM_ACTIONS = 4
