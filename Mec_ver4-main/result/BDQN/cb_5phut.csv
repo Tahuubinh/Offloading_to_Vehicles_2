@@ -1,0 +1,2 @@
+total_reward,mean_reward,loss,mae,mean_q,episode_steps,step
+58.56445572387044,0.06145273423281263,0.128653, 0.160148, 0.211435,953,953

@@ -1,0 +1,31 @@
+thuoctinh,fuzzy and deep q,deep q learning,fuzzy,random
+server,,,,
+average_time,1.71,13.43,2.78,1.43
+max_time,34.35,251.25,47.64,15.97
+min_time,0.17,0.17,0.17,0.17
+median_time,1.1,1.4,2.31,0.79
+soluong,0.61,0.58,0.7,0.5
+average_quality,0.9,0.76,0.64,0.91
+var_time,4.99,1236.75,11.14,3.26
+vehicular fog1,,,,
+average_time,1.97,64.75,1.8,3.91
+max_time,4.46,946.28,3.68,32.09
+min_time,0.58,0.59,0.58,0.6
+median_time,1.8,2.92,1.79,2.48
+soluong,0.11,0.13,0.1,0.17
+average_quality,0.92,0.52,0.97,0.55
+var_time,0.67,21323.52,0.26,15.06
+vehicular fog2,,,,
+max_time,4.47,857.18,3.82,17.43
+min_time,0.47,0.47,0.49,0.48
+median_time,1.54,2.34,1.48,1.64
+soluong,0.15,0.16,0.11,0.17
+average_quality,0.93,0.6,0.97,0.79
+vehicular fog3,,,,
+average_time,1.8,85.12,1.78,3.52
+max_time,4.5,1143.1,2.98,36.53
+min_time,0,0.56,0.58,0.58
+median_time,1.63,2.8,1.82,2.17
+soluong,0.13,0.13,0.09,0.17
+average_quality,0.94,0.53,0.99,0.62
+var_time,0.6,30782.48,0.19,12.94

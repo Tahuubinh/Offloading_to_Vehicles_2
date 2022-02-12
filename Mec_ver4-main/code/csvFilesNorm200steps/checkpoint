@@ -1,0 +1,2 @@
+model_checkpoint_path: "weight_BDQL_M900_1000_200steps_gamma_0.9_static.h5f"
+all_model_checkpoint_paths: "weight_BDQL_M900_1000_200steps_gamma_0.9_static.h5f"

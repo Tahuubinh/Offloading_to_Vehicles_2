@@ -1,0 +1,26 @@
+
+************************************************************************************
+
+The bus mobility traces are described in:
+
+Jorjeta G. Jetcheva, Yih-Chun Hu, Santashil PalChaudhuri, Amit Kumar Saha, and David B. Johnson. Design and Evaluation of a Metropolitan Area Multitier Wireless Ad Hoc Network Architecture. Proceedings of the 5th IEEE Workshop on Mobile Computing Systems & Applications (WMCSA 2003), IEEE, Monterey, CA, October 2003. 
+
+Please cite this work when you use our traces.
+
+************************************************************************************
+
+The traces in this directory correspond to several weeks worth of data.
+
+Each line in the traces is formatted as follows:
+
+<month>-<day>:<time> <bus_id> <route_id> <unknown> <x_coord> <y_coord> 
+
+The route_id signifies the route followed by a bus.  Multiple buses may follow a given 
+bus route at any time.  The x and y coordinates are in feet and were computed from the 
+latitude and longitude values reported in the raw traces.  
+
+
+
+
+
+

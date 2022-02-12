@@ -1,0 +1,1 @@
+date,month,hour,minute,second,index,unknown1,unknown2,x,y
