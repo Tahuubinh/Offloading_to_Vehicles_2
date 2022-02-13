@@ -194,7 +194,7 @@ def Run_DQL(folder_name):
     # files.write("kq\n")
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
     try:
-        dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
+        dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     except Exception as e:
         print(e)
     
@@ -220,7 +220,7 @@ def Run_BDQL(folder_name):
               k = k, epsilon = epsilon)
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
+    dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
             baseline = baseline)
     
 def Run_Static_BDQL(folder_name):
@@ -245,7 +245,7 @@ def Run_Static_BDQL(folder_name):
               k = k, epsilon = epsilon)
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
+    dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
             baseline = baseline)
     
 def Run_DDQL(folder_name):
@@ -264,7 +264,7 @@ def Run_DDQL(folder_name):
         print(e)
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
+    dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     
 def Run_Sarsa(i, file):
     model=build_model(14,4)
@@ -342,12 +342,12 @@ if __name__=="__main__":
     # elif types == "DDQL":
     #     Run_DDQL()
     #create model FDQO
-    for i in range(1,2):
+    for i in range(1,11):
         try:
-            #Run_DQL("DQN")
+            #Run_DQL("DQN/" + str(i))
             #Run_BDQL("BDQN")
-            Run_Static_BDQL("Sb-DQN")
-            #Run_DDQL("DDQN")
+            #Run_Static_BDQL("Sb-DQN")
+            Run_DDQL("DDQN/" + str(i))
             #Run_FDQO("a")
             #Run_BFDQO("a")
             #Run_RGreedy("M900_1000_200_tslots", file)
