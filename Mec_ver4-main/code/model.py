@@ -25,6 +25,6 @@ class Model_Deep_Q_Learning:
         policy =EpsGreedyQPolicy(epsilon) #EpsGreedyFuzzyPolicy must have select_action
         #print(file)
         dqn = DQNAgent(model=model, nb_actions=self.num_actions, memory=self.memory, nb_steps_warmup=10,\
-              target_model_update=1e-3, policy=policy, gamma=0.5, memory_interval=2,
+              target_model_update=1e-3, policy=policy, gamma=0.9, memory_interval=2,
               i = name, file = file, k = k, epsilon = epsilon, threshold = threshold)
         return dqn

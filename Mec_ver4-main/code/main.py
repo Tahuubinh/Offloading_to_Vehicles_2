@@ -147,13 +147,13 @@ def Run_RGreedy(i, file):
 def build_model(state_size, num_actions):
     input = Input(shape=(1,state_size))
     x = Flatten()(input)
-    x = Dense(16, activation='relu')(x)
+    #x = Dense(16, activation='relu')(x)
 
     x = Dense(32, activation='relu')(x)
 
     x = Dense(32, activation='relu')(x)
   
-    x = Dense(8, activation='relu')(x)
+    x = Dense(16, activation='relu')(x)
 
     output = Dense(num_actions, activation='linear')(x)
     model = Model(inputs=input, outputs=output)
@@ -205,8 +205,8 @@ def Run_BDQL(folder_name):
     # for dynamic, epsilon = min(epsilon, epsilon - k(average_reward - baseline))
     # epsilon = max(epsilon, 0.01)
     baseline = 0.6   
-    k = 0.5
-    epsilon = 0.1
+    k = 0.8
+    epsilon = 0.12
     policy = EpsGreedyQPolicy(epsilon)
     policy2 = None #EpsGreedyQPolicy(0.05)      # None if not used, mean: using dynamic insted
     reward_capacity = 10000      # Queue that save the last "reward_capacity" rewards
@@ -312,9 +312,9 @@ def Run_FDQO(folder_name):
 def Run_BFDQO(folder_name):
     folder, memory, callbacks, callback2 = initRun(folder_name)
     FDQO_method = Model_Deep_Q_Learning(14,4)    #In model  size, action
-    baseline = 0.6  # None if using FDQO, >0 and <1 if using baseline
-    threshold = 0.9     # if reward received bigger than threshold, using Fuzzy Logic
-    k = 0.6     # Same formula as BDQL
+    baseline = 0.4  # None if using FDQO, >0 and <1 if using baseline
+    threshold = 0.8     # if reward received bigger than threshold, using Fuzzy Logic
+    k = 0.5     # Same formula as BDQL
     epsilon = 0.1
     model = FDQO_method.build_model(epsilon = epsilon, file = folder,
                                     k = k, threshold = threshold)
@@ -342,14 +342,15 @@ if __name__=="__main__":
     # elif types == "DDQL":
     #     Run_DDQL()
     #create model FDQO
-    for i in range(1,11):
+    for i in range(1,11): # 6,11
         try:
             #Run_DQL("DQN/" + str(i))
-            #Run_BDQL("BDQN")
-            #Run_Static_BDQL("Sb-DQN")
-            Run_DDQL("DDQN/" + str(i))
+            #Run_BDQL("BFDQO_b_0.4_k_0.5_e_0.1_mem_2000_t0.8/6")
+            Run_BDQL("Db-DQN_b_0.6_k_0.8_e_0.12/" + str(i))
+            #Run_Static_BDQL("Sb-DQN/" + str(i))
+            #Run_DDQL("DDQN/" + str(i))
             #Run_FDQO("a")
-            #Run_BFDQO("a")
+            #Run_BFDQO("BFDQO_b_0.4_k_0.5_e_0.1_mem_2000_t0.8/" + str(i))
             #Run_RGreedy("M900_1000_200_tslots", file)
             #Run_Sarsa("M900_1000", file)
         except:

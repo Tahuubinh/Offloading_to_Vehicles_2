@@ -119,7 +119,7 @@ class DQNAgent(AbstractDQNAgent):
         self.average_reward = 0
         self.t = 0
         self.sumreward = 0
-        self.reward_capacity = 1500
+        self.reward_capacity = 2000
         self.reward_queue = Queue(maxsize = self.reward_capacity)
         self.epsilon = epsilon
         self.k = k
@@ -161,6 +161,7 @@ class DQNAgent(AbstractDQNAgent):
         if test_policy is None:
             test_policy = EpsGreedyQPolicy(0.0)
         self.policy = policy
+        self.greedy_policy = EpsGreedyQPolicy(0.0)
         self.test_policy = test_policy
 
         # State.
@@ -311,7 +312,7 @@ class DQNAgent(AbstractDQNAgent):
                 self.files.write("0\n")
                 #print("A")
             else:
-                action, _ = self.policy.select_action(q_values=q_values)
+                action, _ = self.greedy_policy.select_action(q_values=q_values)
         
                 if self.estimate_reward(action,observation) > self.threshold:
                     action = action
