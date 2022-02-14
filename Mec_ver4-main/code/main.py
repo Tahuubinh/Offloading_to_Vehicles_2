@@ -313,9 +313,9 @@ def Run_BFDQO(folder_name):
     folder, memory, callbacks, callback2 = initRun(folder_name)
     FDQO_method = Model_Deep_Q_Learning(14,4)    #In model  size, action
     baseline = 0.4  # None if using FDQO, >0 and <1 if using baseline
-    threshold = 0.8     # if reward received bigger than threshold, using Fuzzy Logic
-    k = 0.5     # Same formula as BDQL
-    epsilon = 0.1
+    threshold = 0.9     # if reward received bigger than threshold, using Fuzzy Logic
+    k = 0.8     # Same formula as BDQL
+    epsilon = 0.12
     model = FDQO_method.build_model(epsilon = epsilon, file = folder,
                                     k = k, threshold = threshold)
     #Create enviroment FDQO
@@ -346,11 +346,11 @@ if __name__=="__main__":
         try:
             #Run_DQL("DQN/" + str(i))
             #Run_BDQL("BFDQO_b_0.4_k_0.5_e_0.1_mem_2000_t0.8/6")
-            Run_BDQL("Db-DQN_b_0.6_k_0.8_e_0.12/" + str(i))
+            #Run_BDQL("Db-DQN_b_0.6_k_0.8_e_0.12/" + str(i))
             #Run_Static_BDQL("Sb-DQN/" + str(i))
             #Run_DDQL("DDQN/" + str(i))
             #Run_FDQO("a")
-            #Run_BFDQO("BFDQO_b_0.4_k_0.5_e_0.1_mem_2000_t0.8/" + str(i))
+            Run_BFDQO("BFDQO_b_0.6_k_0.8_e_0.12/" + str(i))
             #Run_RGreedy("M900_1000_200_tslots", file)
             #Run_Sarsa("M900_1000", file)
         except:
