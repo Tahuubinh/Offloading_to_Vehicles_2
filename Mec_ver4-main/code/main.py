@@ -21,6 +21,8 @@ from tensorflow.keras.layers import (Activation, Concatenate, Dense, Dropout,
                                      Flatten, Input)
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.optimizers import Adam
+from keras.models import load_model
+
 import sys
 
 from fuzzy_controller import *
@@ -161,6 +163,13 @@ def build_model(state_size, num_actions):
     model = Model(inputs=input, outputs=output)
     return model
 
+def get_model():
+    try:
+        model = load_model('my_model.h5')
+    except Exception as e: 
+        print(e)
+    return model
+
 def initRun(folder_name):
     MyGlobals.folder_name = folder_name + '/'
     try:
@@ -201,7 +210,8 @@ def Run_DQL(folder_name):
         print(e)
     
 def Run_BDQL(folder_name):
-    model=build_model(14,4)
+    #model=build_model(14,4)
+    model = get_model()
     folder, memory, callbacks, callback2 = initRun(folder_name)
     # using static by setting policy2
     # for dynamic, epsilon = min(epsilon, epsilon - k(average_reward - baseline))
@@ -314,9 +324,9 @@ def Run_FDQO(folder_name):
 def Run_BFDQO(folder_name):
     folder, memory, callbacks, callback2 = initRun(folder_name)
     FDQO_method = Model_Deep_Q_Learning(14,4)    #In model  size, action
-    baseline = 0.4  # None if using FDQO, >0 and <1 if using baseline
-    threshold = 0.9     # if reward received bigger than threshold, using Fuzzy Logic
-    k = 0.8     # Same formula as BDQL
+    baseline = 0.45  # None if using FDQO, >0 and <1 if using baseline
+    threshold = 0.85     # if reward received bigger than threshold, using Fuzzy Logic
+    k = 0.6     # Same formula as BDQL
     epsilon = 0.12
     model = FDQO_method.build_model(epsilon = epsilon, file = folder,
                                     k = k, threshold = threshold)
@@ -344,15 +354,15 @@ if __name__=="__main__":
     # elif types == "DDQL":
     #     Run_DDQL()
     #create model FDQO
-    for i in range(1,11): # 6,11
+    for i in range(1,2): # 6,11
         try:
             #Run_DQL("DQN/" + str(i))
-            Run_BDQL("Db-DQN_b_0.55_k_0.6_e_0.12/" + str(i))
-            #Run_BDQL("Db-DQN_b_0.6_k_0.8_e_0.12/" + str(i))
+            #Run_BDQL("Db-DQN_b_0.55_k_0.6_e_0.12/" + str(i))
+            #Run_BDQL("Temp/" + str(i))
             #Run_Static_BDQL("Sb-DQN/" + str(i))
             #Run_DDQL("DDQN/" + str(i))
             #Run_FDQO("a")
-            #Run_BFDQO("Temp/" + str(i))
+            Run_BFDQO("b-FDQO_b_0.55_k_0.6_e_0.12/" + str(i))
             #Run_RGreedy("M900_1000_200_tslots", file)
             #Run_Sarsa("M900_1000", file)
         except:

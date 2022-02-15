@@ -7,6 +7,7 @@ from FDQO_method import DQNAgent
 from policy import EpsGreedyQPolicy, EpsGreedyFuzzyPolicy
 from config import Config
 from rl.memory import SequentialMemory
+from keras.models import load_model
 
 class Model_Deep_Q_Learning:
     def __init__(self,state_size,num_actions):
@@ -15,23 +16,37 @@ class Model_Deep_Q_Learning:
         self.memory = SequentialMemory(limit=5000, window_length=1)
 
     def build_model(self, epsilon = .1, name = None, file = None, k = 0, threshold = 0.8):
-        input = Input(shape=(1,self.state_size))
-        x = Flatten()(input)
-        for i in range(Config.length_hidden_layer):
-            x = Dense(Config.n_unit_in_layer[i], activation='relu')(x)
-        # x = Dense(32, activation='relu')(x)
-        # x = Dense(32, activation='relu')(x)
-        # x = Dense(16, activation='relu')(x)
-        output = Dense(self.num_actions, activation='linear')(x)
+        # input = Input(shape=(1,self.state_size))
+        # x = Flatten()(input)
+        # for i in range(Config.length_hidden_layer):
+        #     x = Dense(Config.n_unit_in_layer[i], activation='relu')(x)
+        # # x = Dense(32, activation='relu')(x)
+        # # x = Dense(32, activation='relu')(x)
+        # # x = Dense(16, activation='relu')(x)
+        # output = Dense(self.num_actions, activation='linear')(x)
+        
+        # # input = Input(shape=(1,self.state_size))
+        # # x = Flatten()(input)
+        # # x = Dense(32, activation='relu')(x)
+        # # x = Dense(32, activation='relu')(x)
+        # # x = Dense(16, activation='relu')(x)
+        # # output = Dense(self.num_action, activation='linear')(x)
+        
+        # model = Model(inputs=input, outputs=output)
         
         # input = Input(shape=(1,self.state_size))
         # x = Flatten()(input)
-        # x = Dense(32, activation='relu')(x)
-        # x = Dense(32, activation='relu')(x)
-        # x = Dense(16, activation='relu')(x)
-        # output = Dense(self.num_action, activation='linear')(x)
+        # for i in range(3):
+        #     x = Dense(Config.n_unit_in_layer[i], activation='relu')(x)
+        # output = Dense(self.num_actions, activation='linear')(x)
+        # model = Model(inputs=input, outputs=output)
+        # model.save('FDQO_model.h5')
         
-        model = Model(inputs=input, outputs=output)
+        try:
+            model = load_model('FDQO_model.h5')
+        except Exception as e:
+            print(e)
+            
         model.summary()
         policy =EpsGreedyQPolicy(epsilon) #EpsGreedyFuzzyPolicy must have select_action
         #print(file)
