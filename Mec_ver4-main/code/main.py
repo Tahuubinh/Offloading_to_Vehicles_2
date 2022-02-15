@@ -149,11 +149,13 @@ def build_model(state_size, num_actions):
     x = Flatten()(input)
     #x = Dense(16, activation='relu')(x)
 
-    x = Dense(32, activation='relu')(x)
+    # x = Dense(32, activation='relu')(x)
 
-    x = Dense(32, activation='relu')(x)
+    # x = Dense(32, activation='relu')(x)
   
-    x = Dense(16, activation='relu')(x)
+    # x = Dense(16, activation='relu')(x)
+    for i in range(Config.length_hidden_layer):
+        x = Dense(Config.n_unit_in_layer[i], activation='relu')(x)
 
     output = Dense(num_actions, activation='linear')(x)
     model = Model(inputs=input, outputs=output)
@@ -204,8 +206,8 @@ def Run_BDQL(folder_name):
     # using static by setting policy2
     # for dynamic, epsilon = min(epsilon, epsilon - k(average_reward - baseline))
     # epsilon = max(epsilon, 0.01)
-    baseline = 0.6   
-    k = 0.8
+    baseline = 0.55   
+    k = 0.6
     epsilon = 0.12
     policy = EpsGreedyQPolicy(epsilon)
     policy2 = None #EpsGreedyQPolicy(0.05)      # None if not used, mean: using dynamic insted
@@ -345,12 +347,12 @@ if __name__=="__main__":
     for i in range(1,11): # 6,11
         try:
             #Run_DQL("DQN/" + str(i))
-            #Run_BDQL("BFDQO_b_0.4_k_0.5_e_0.1_mem_2000_t0.8/6")
+            Run_BDQL("Db-DQN_b_0.55_k_0.6_e_0.12/" + str(i))
             #Run_BDQL("Db-DQN_b_0.6_k_0.8_e_0.12/" + str(i))
             #Run_Static_BDQL("Sb-DQN/" + str(i))
             #Run_DDQL("DDQN/" + str(i))
             #Run_FDQO("a")
-            Run_BFDQO("BFDQO_b_0.6_k_0.8_e_0.12/" + str(i))
+            #Run_BFDQO("Temp/" + str(i))
             #Run_RGreedy("M900_1000_200_tslots", file)
             #Run_Sarsa("M900_1000", file)
         except:

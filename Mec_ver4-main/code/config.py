@@ -13,6 +13,6 @@ class Config:
     Pr = 46
     Pr2 = 24
     Wm = 10
-    length_hidden_layer=4
     n_unit_in_layer=[16, 32, 32, 8]
+    length_hidden_layer = len(n_unit_in_layer)
     

@@ -17,11 +17,11 @@ class Model_Deep_Q_Learning:
     def build_model(self, epsilon = .1, name = None, file = None, k = 0, threshold = 0.8):
         input = Input(shape=(1,self.state_size))
         x = Flatten()(input)
-        # for i in range(Config.length_hidden_layer):
-        #     x = Dense(Config.n_unit_in_layer[i], activation='relu')(x)
-        x = Dense(32, activation='relu')(x)
-        x = Dense(32, activation='relu')(x)
-        x = Dense(16, activation='relu')(x)
+        for i in range(Config.length_hidden_layer):
+            x = Dense(Config.n_unit_in_layer[i], activation='relu')(x)
+        # x = Dense(32, activation='relu')(x)
+        # x = Dense(32, activation='relu')(x)
+        # x = Dense(16, activation='relu')(x)
         output = Dense(self.num_actions, activation='linear')(x)
         
         # input = Input(shape=(1,self.state_size))
