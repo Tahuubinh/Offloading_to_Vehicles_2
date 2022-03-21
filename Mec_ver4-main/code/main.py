@@ -103,7 +103,13 @@ def Run_Fuzzy():
     print('Time: ', stop - start)  
     files.close()
     
-def Run_RGreedy(i, file):
+def Run_RGreedy(folder_name):
+    MyGlobals.folder_name = folder_name + '/'
+    try:
+        os.makedirs(RESULT_DIR + MyGlobals.folder_name)
+    except OSError as e:
+        print(e)
+    folder = RESULT_DIR + MyGlobals.folder_name
     sumreward = 0
     nreward = 0
     files = open("RGreedy_5phut.csv","w")
@@ -111,8 +117,8 @@ def Run_RGreedy(i, file):
 
     files.write("kq,sl,mean_reward\n")
     env = BusEnv("RGreedy")
-    env.modifyEnv(i, file)
-    for i in range(201):
+    #env.modifyEnv(i, file)
+    for i in range(202):
         tong=0
         h=0
         soluong=0
@@ -138,7 +144,7 @@ def Run_RGreedy(i, file):
             soluong+=1
             files1.write(str(sumreward / nreward)+"\n")
             if c==True :
-                if i!=201:
+                if i!=202:
                     env.reset()
                 files.write(str(tong)+","+str(soluong)+","+str(tong/soluong)+"\n")
     stop = timeit.default_timer()
@@ -189,9 +195,12 @@ def initRun(folder_name):
     return folder, memory, callbacks, callback2
 
 def Run_DQL(folder_name):
-    model=build_model(14,4)
+    #model=build_model(14,4)
+    model = get_model()
     folder, memory, callbacks, callback2 = initRun(folder_name)
-    policy = EpsGreedyQPolicy(0.1)
+    #policy = EpsGreedyQPolicy(0.1)
+    #policy = BoltzmannQPolicy(tau=1, clip=(50, 500.))
+    policy = MaxBoltzmannQPolicy(eps=.1, tau=1., clip=(50, 500.))
     env = BusEnv("DQL")
     env.seed(123)
     memory = SequentialMemory(limit=25000, window_length=1)
@@ -205,7 +214,7 @@ def Run_DQL(folder_name):
     # files.write("kq\n")
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
     try:
-        dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
+        dqn.fit(env, nb_steps= 100000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     except Exception as e:
         print(e)
     
@@ -232,11 +241,12 @@ def Run_BDQL(folder_name):
               k = k, epsilon = epsilon)
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
+    dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
             baseline = baseline)
     
 def Run_Static_BDQL(folder_name):
-    model=build_model(14,4)
+    #model=build_model(14,4)
+    model = get_model()
     folder, memory, callbacks, callback2 = initRun(folder_name)
     # using static by setting policy2
     # for dynamic, epsilon = min(epsilon, epsilon - k(average_reward - baseline))
@@ -257,11 +267,12 @@ def Run_Static_BDQL(folder_name):
               k = k, epsilon = epsilon)
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
+    dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
             baseline = baseline)
     
 def Run_DDQL(folder_name):
-    model=build_model(14,4)
+    #model=build_model(14,4)
+    model = get_model()
     folder, memory, callbacks, callback2 = initRun(folder_name)
     policy = EpsGreedyQPolicy(0.1)
     env = BusEnv("DDQL")
@@ -276,7 +287,7 @@ def Run_DDQL(folder_name):
         print(e)
         
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
+    dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     
 def Run_Sarsa(i, file):
     model=build_model(14,4)
@@ -300,7 +311,7 @@ def Run_Sarsa(i, file):
     callback3 = TestLogger11(files)
     dqn.compile(Adam(learning_rate=1e-3), metrics=['mae'])
     try:
-        dqn.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
+        dqn.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2])
     except Exception as e:
         print(e)
 
@@ -317,14 +328,14 @@ def Run_FDQO(folder_name):
     env = BusEnv("FDQO")
     env.seed(123)
     model.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    model.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
+    model.fit(env, nb_steps= 100000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
               baseline = baseline, eps = 1)
     model.close_files()
     
 def Run_BFDQO(folder_name):
     folder, memory, callbacks, callback2 = initRun(folder_name)
     FDQO_method = Model_Deep_Q_Learning(14,4)    #In model  size, action
-    baseline = 0.45  # None if using FDQO, >0 and <1 if using baseline
+    baseline = 0.5  # None if using FDQO, >0 and <1 if using baseline
     threshold = 0.85     # if reward received bigger than threshold, using Fuzzy Logic
     k = 0.6     # Same formula as BDQL
     epsilon = 0.12
@@ -334,7 +345,7 @@ def Run_BFDQO(folder_name):
     env = BusEnv("FDQO")
     env.seed(123)
     model.compile(Adam(learning_rate=1e-3), metrics=['mae'])
-    model.fit(env, nb_steps= 200000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
+    model.fit(env, nb_steps= 5000, visualize=False, verbose=2,callbacks=[callbacks,callback2],
               baseline = baseline, eps = 1)
     model.close_files()
 
@@ -354,16 +365,17 @@ if __name__=="__main__":
     # elif types == "DDQL":
     #     Run_DDQL()
     #create model FDQO
-    for i in range(1,2): # 6,11
+    for i in range(1,2):
         try:
-            #Run_DQL("DQN/" + str(i))
-            #Run_BDQL("Db-DQN_b_0.55_k_0.6_e_0.12/" + str(i))
+            #Run_DQL("DQN_BoltzmannQPolicy/tau_0.1/" + str(i))
+            Run_DQL("DQN_MaxBoltzmannQPolicy/eps_0.1_tau_1.0_clipmin_100/" + str(4))
+            #Run_BDQL("Db-DQN_5k/" + str(i))
             #Run_BDQL("Temp/" + str(i))
-            #Run_Static_BDQL("Sb-DQN/" + str(i))
-            #Run_DDQL("DDQN/" + str(i))
-            #Run_FDQO("a")
-            Run_BFDQO("b-FDQO_b_0.55_k_0.6_e_0.12/" + str(i))
-            #Run_RGreedy("M900_1000_200_tslots", file)
+            #Run_Static_BDQL("Sb-DQN_5k/" + str(i))
+            #Run_DDQL("DDQN_5k/" + str(i))
+            #Run_FDQO("FDQO_time_reduce_experience_rate/a/" + str(i))
+            #Run_BFDQO("b-FDQO_5k/" + str(i))
+            #Run_RGreedy("RGreedy/1")
             #Run_Sarsa("M900_1000", file)
         except:
             continue

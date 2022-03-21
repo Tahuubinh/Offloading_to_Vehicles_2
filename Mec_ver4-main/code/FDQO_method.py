@@ -263,88 +263,117 @@ class DQNAgent(AbstractDQNAgent):
         #self.n_tasks_in_node[action] = self.n_tasks_in_node[action]+1
         reward = max(0,min((2*observation[13]-time_delay)/observation[13],1))
         return reward
+    
+    # def forward(self, observation, step = 0, baseline = 0.8, eps = 0.9, r = 0):
+    #     # Select an action.
+    #     state = self.memory.get_recent_state(observation)
+    #     q_values = self.compute_q_values(state)
+    #     # if self.step % 1000 == 0:
+    #     #     print(q_values)
+    #     if baseline:
+    #         # average of max #reward_capacity nearest rewards
+    #         if self.reward_queue.full():
+    #             self.sumreward -= self.reward_queue.get()
+    #         self.reward_queue.put(r)
+    #         self.sumreward += r
+    #         try:
+    #             self.average_reward = self.sumreward / self.t #using when t > 0
+    #         except:
+    #             pass
+    #         if (self.t < self.reward_capacity):
+    #             self.t += 1
+        
+    #         if self.average_reward > baseline:
+    #             if self.reward_queue2.full():
+    #                 self.sumreward2 -= self.reward_queue2.get()
+    #             self.reward_queue2.put(r)
+    #             self.sumreward2 += r
+    #             try:
+    #                 self.average_reward2 = self.sumreward2 / self.t2 #using when t > 0
+    #             except:
+    #                 pass
+    #             if (self.t2 < 10000):
+    #                 self.t2 += 1
+    #             epsilon = min(self.epsilon - self.k * (self.average_reward2 - 0.55), self.epsilon)
+    #             epsilon = max(epsilon, 0.01)
+    #             # if self.step > 50000:
+    #             #     if self.step % 2 and np.random.uniform() < 2 * epsilon:
+    #             #         action = np.random.randint(0, 4)
+    #             #     else:
+    #             #         action = np.argmax(q_values)
+    #             # else:
+    #             #     if np.random.uniform() < epsilon:
+    #             #         action = np.random.randint(0, 4)
+    #             #     else:
+    #             #         action = np.argmax(q_values)
+    #             if np.random.uniform() < epsilon:
+    #                 action = np.random.randint(0, 4)
+    #             else:
+    #                 action = np.argmax(q_values)
+    #             self.files.write("0\n")
+    #             #print("A")
+    #         else:
+    #             action, _ = self.greedy_policy.select_action(q_values=q_values)
+        
+    #             if self.estimate_reward(action,observation) > self.threshold:
+    #                 action = action
+    #                 self.files.write("0\n")
+    #                 #print("A")
+    #             else:
+    #                 action = self.fuzzy_logic.choose_action(observation)
+    #                 self.files.write("1\n")
+    #         # if exploration == False:
+    #         #     if self.estimate_reward(action,observation)>=0.8:
+    #         #         action = action
+    #         #         self.files.write("0\n")
+    #         #     else:
+    #         #         action = self.fuzzy_logic.choose_action(observation)
+    #         #         self.files.write("1\n")
+    #         # else:
+    #         #     if self.estimate_reward(action,observation)>=0.2:
+    #         #         action = action
+    #         #         self.files.write("0\n")
+    #         #     else:
+    #         #         action = self.fuzzy_logic.choose_action(observation)
+    #         #         self.files.write("1\n")
+    #     else:
+    #         action, _ = self.policy.select_action(q_values=q_values)
+    #         if self.estimate_reward(action,observation) > self.threshold or np.random.uniform() > eps:
+    #             action = action
+    #             self.files.write("0\n")
+    #             #print("A")
+    #         else:
+    #             action = self.fuzzy_logic.choose_action(observation)
+    #             self.files.write("1\n")
+    #         #print(action, self.step)
+
+    #     # Book-keeping.
+    #     self.recent_observation = observation
+    #     self.recent_action = action
+
+    #     return action
+    
     def forward(self, observation, step = 0, baseline = 0.8, eps = 0.9, r = 0):
         # Select an action.
         state = self.memory.get_recent_state(observation)
         q_values = self.compute_q_values(state)
         # if self.step % 1000 == 0:
         #     print(q_values)
-        if baseline:
-            # average of max #reward_capacity nearest rewards
-            if self.reward_queue.full():
-                self.sumreward -= self.reward_queue.get()
-            self.reward_queue.put(r)
-            self.sumreward += r
-            try:
-                self.average_reward = self.sumreward / self.t #using when t > 0
-            except:
-                pass
-            if (self.t < self.reward_capacity):
-                self.t += 1
-        
-            if self.average_reward > baseline:
-                if self.reward_queue2.full():
-                    self.sumreward2 -= self.reward_queue2.get()
-                self.reward_queue2.put(r)
-                self.sumreward2 += r
-                try:
-                    self.average_reward2 = self.sumreward2 / self.t2 #using when t > 0
-                except:
-                    pass
-                if (self.t2 < 10000):
-                    self.t2 += 1
-                epsilon = min(self.epsilon - self.k * (self.average_reward2 - 0.55), self.epsilon)
-                epsilon = max(epsilon, 0.01)
-                # if self.step > 50000:
-                #     if self.step % 2 and np.random.uniform() < 2 * epsilon:
-                #         action = np.random.randint(0, 4)
-                #     else:
-                #         action = np.argmax(q_values)
-                # else:
-                #     if np.random.uniform() < epsilon:
-                #         action = np.random.randint(0, 4)
-                #     else:
-                #         action = np.argmax(q_values)
-                if np.random.uniform() < epsilon:
-                    action = np.random.randint(0, 4)
-                else:
-                    action = np.argmax(q_values)
-                self.files.write("0\n")
-                #print("A")
-            else:
-                action, _ = self.greedy_policy.select_action(q_values=q_values)
-        
-                if self.estimate_reward(action,observation) > self.threshold:
-                    action = action
-                    self.files.write("0\n")
-                    #print("A")
-                else:
-                    action = self.fuzzy_logic.choose_action(observation)
-                    self.files.write("1\n")
-            # if exploration == False:
-            #     if self.estimate_reward(action,observation)>=0.8:
-            #         action = action
-            #         self.files.write("0\n")
-            #     else:
-            #         action = self.fuzzy_logic.choose_action(observation)
-            #         self.files.write("1\n")
+        action, _ = self.policy.select_action(q_values=q_values)
+        if self.step < 5000:
+            # action, _ = self.greedy_policy.select_action(q_values=q_values)
+            # if self.estimate_reward(action,observation) > self.threshold:
+            #     action = action
+            #     self.files.write("0\n")
+            #     #print("A")
             # else:
-            #     if self.estimate_reward(action,observation)>=0.2:
-            #         action = action
-            #         self.files.write("0\n")
-            #     else:
-            #         action = self.fuzzy_logic.choose_action(observation)
-            #         self.files.write("1\n")
+            #     action = self.fuzzy_logic.choose_action(observation)
+            #     self.files.write("1\n")
+            action = self.fuzzy_logic.choose_action(observation)
+            self.files.write("1\n")
         else:
-            action, _ = self.policy.select_action(q_values=q_values)
-            if self.estimate_reward(action,observation) > self.threshold or np.random.uniform() > eps:
-                action = action
-                self.files.write("0\n")
-                #print("A")
-            else:
-                action = self.fuzzy_logic.choose_action(observation)
-                self.files.write("1\n")
-
+            self.files.write("0\n")
+            
         # Book-keeping.
         self.recent_observation = observation
         self.recent_action = action
