@@ -4,7 +4,7 @@
 ```
 @article{binh2022value,
   title={Value-based reinforcement learning approaches for task offloading in Delay Constrained Vehicular Edge Computing},
-  author={Binh, Ta Huu and Vo, Hiep Khac and Nguyen, Binh Minh and Binh, Huynh Thi Thanh and Yu, Shui and others},
+  author={Son, Do Bao and Binh, Ta Huu and Vo, Hiep Khac and Nguyen, Binh Minh and Binh, Huynh Thi Thanh and Yu, Shui and others},
   journal={Engineering Applications of Artificial Intelligence},
   volume={113},
   pages={104898},
