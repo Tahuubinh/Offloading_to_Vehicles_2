@@ -1,3 +1,5 @@
+[Value-based reinforcement learning approaches for task offloading in Delay Constrained Vehicular Edge Computing](https://www.sciencedirect.com/science/article/abs/pii/S0952197622001336), Engineering Applications of Artificial Intelligence 2022.
+
 # Luutam
 Hướng dẫn sử dụng:
   Thao tác chủ yếu trong code, data_task:
